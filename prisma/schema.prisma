@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum DebateStatus {
+  DRAFT
+  LIVE
+  FINAL
+  ENDED
+}
+
+enum VoteRound {
+  TOPIC
+  FINAL
+}
+
+enum VoteSide {
+  PRO
+  CON
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+  debates      Debate[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Debate {
+  id            String       @id @default(cuid())
+  publicToken   String       @unique
+  ownerId       String
+  title         String
+  theme         String
+  status        DebateStatus @default(DRAFT)
+  currentTopicId String?      @unique
+  finalWinner   VoteSide?
+  finalSummary  String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  owner         User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  currentTopic  Topic?       @relation("CurrentTopic", fields: [currentTopicId], references: [id], onDelete: SetNull)
+  topics        Topic[]
+  votes         Vote[]
+
+  @@index([ownerId])
+  @@index([status])
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  debateId    String
+  title       String
+  detail      String
+  proView     String
+  conView     String
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  debate      Debate   @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  votes       Vote[]
+  currentInDebate Debate? @relation("CurrentTopic")
+
+  @@index([debateId, position])
+}
+
+model Vote {
+  id        String    @id @default(cuid())
+  debateId  String
+  topicId   String?
+  round     VoteRound
+  scopeKey  String
+  side      VoteSide
+  voterKey  String
+  createdAt DateTime  @default(now())
+  debate    Debate    @relation(fields: [debateId], references: [id], onDelete: Cascade)
+  topic     Topic?    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([debateId, topicId, round])
+  @@index([debateId, scopeKey])
+  @@index([voterKey])
+  @@unique([debateId, scopeKey, voterKey])
+}
