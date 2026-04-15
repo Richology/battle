@@ -363,13 +363,24 @@ export function DashboardScreen({
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [topicListError, setTopicListError] = useState<string | null>(null);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
+  const [copiedLink, setCopiedLink] = useState<'stage' | 'vote' | null>(null);
 
   const selectedSummary = items.find((item) => item.id === selectedId) ?? items[0] ?? null;
   const activeTopic = state?.currentTopic ?? state?.topics.find((topic) => topic.id === selectedTopicId) ?? null;
+  const isFinalVote = Boolean(state && state.status === 'FINAL' && !state.finalResult);
   const liveSummary = state?.finalResult ?? state?.liveCounts ?? emptyVoteTally;
   const canEdit = Boolean(state && state.status !== 'FINAL' && state.status !== 'ENDED');
   const stageUrl = selectedSummary ? selectedSummary.stagePath : '#';
   const voteUrl = selectedSummary ? selectedSummary.votePath : '#';
+
+  useEffect(() => {
+    if (!copiedLink) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => setCopiedLink(null), 1600);
+    return () => window.clearTimeout(timer);
+  }, [copiedLink]);
 
   async function refreshDebates() {
     const response = await fetch('/api/debates', { cache: 'no-store' });
@@ -420,8 +431,44 @@ export function DashboardScreen({
     setSelectedId(debateId);
     setBusyAction(null);
     setShareNotice(null);
+    setCopiedLink(null);
     setTopicListError(null);
     await refreshState(debateId);
+  }
+
+  async function copyLink(kind: 'stage' | 'vote', value: string, label: string) {
+    if (value === '#') {
+      return;
+    }
+
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+        copied = true;
+      } else {
+        const fallback = document.createElement('textarea');
+        fallback.value = value;
+        fallback.setAttribute('readonly', 'true');
+        fallback.style.position = 'fixed';
+        fallback.style.opacity = '0';
+        document.body.appendChild(fallback);
+        fallback.select();
+        copied = document.execCommand('copy');
+        document.body.removeChild(fallback);
+      }
+    } catch {
+      copied = false;
+    }
+
+    if (copied) {
+      setCopiedLink(kind);
+      setShareNotice(`${label}已复制到剪贴板。`);
+      return;
+    }
+
+    setCopiedLink(null);
+    setShareNotice(`${label}复制失败，请手动复制。`);
   }
 
   async function createDebate() {
@@ -734,14 +781,46 @@ export function DashboardScreen({
 
             {selectedSummary ? (
               <div className="share-links">
-                <Link href={stageUrl} className="share-links__item">
-                  <strong>公屏地址</strong>
-                  <span>{stageUrl}</span>
-                </Link>
-                <Link href={voteUrl} className="share-links__item">
-                  <strong>投票地址</strong>
-                  <span>{voteUrl}</span>
-                </Link>
+                <div className="share-links__item">
+                  <div className="share-links__copy">
+                    <strong>公屏地址</strong>
+                    <span>{stageUrl}</span>
+                  </div>
+                  <div className="share-links__actions">
+                    <Link href={stageUrl} className="ui-button ui-button--outline ui-button--sm">
+                      打开
+                    </Link>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => void copyLink('stage', stageUrl, '公屏地址')}
+                      disabled={copiedLink === 'stage'}
+                    >
+                      {copiedLink === 'stage' ? '已复制' : '复制'}
+                    </Button>
+                  </div>
+                </div>
+                <div className="share-links__item">
+                  <div className="share-links__copy">
+                    <strong>投票地址</strong>
+                    <span>{voteUrl}</span>
+                  </div>
+                  <div className="share-links__actions">
+                    <Link href={voteUrl} className="ui-button ui-button--outline ui-button--sm">
+                      打开
+                    </Link>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => void copyLink('vote', voteUrl, '投票地址')}
+                      disabled={copiedLink === 'vote'}
+                    >
+                      {copiedLink === 'vote' ? '已复制' : '复制'}
+                    </Button>
+                  </div>
+                </div>
               </div>
             ) : (
               <p className="dashboard-screen__empty">还没有辩论会，先创建一个吧。</p>
@@ -882,12 +961,19 @@ export function DashboardScreen({
                   <strong>{activeTopic?.title ?? '终局投票'}</strong>
                 </div>
                 <div>
-                  <span>实时票数</span>
+                  <span>{isFinalVote ? '终局状态' : '实时票数'}</span>
                   <strong>
-                    {liveSummary.pro} / {liveSummary.con}
+                    {isFinalVote ? '已隐藏' : `${liveSummary.pro} / ${liveSummary.con}`}
                   </strong>
                 </div>
               </div>
+
+              {isFinalVote ? (
+                <div className="monitor-final-hint">
+                  <strong>终局投票中</strong>
+                  <p>后台也不显示实时进度，等观众投完后直接点生成结果。</p>
+                </div>
+              ) : null}
 
               <div className="monitor-actions">
                 <Button
