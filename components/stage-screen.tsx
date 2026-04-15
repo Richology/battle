@@ -58,9 +58,9 @@ const emptyVoteTally: VoteTally = {
 function getStatusLabel(status: DebateStatus) {
   switch (status) {
     case 'DRAFT':
-      return '草稿';
+      return '未开始';
     case 'LIVE':
-      return '辩题进行中';
+      return '进行中';
     case 'FINAL':
       return '终局投票';
     case 'ENDED':
@@ -164,8 +164,8 @@ export function StageScreen({
       <main className="stage-screen page-shell">
         <Panel className="stage-screen__fallback">
           <Badge tone="neutral">加载中</Badge>
-          <h1>正在读取公屏内容。</h1>
-          <p>如果这是第一次打开，先等后台写入辩论会数据。</p>
+          <h1>正在加载现场页。</h1>
+          <p>如果这是第一次打开，请稍等片刻。</p>
         </Panel>
       </main>
     );
@@ -176,11 +176,11 @@ export function StageScreen({
       <main className="stage-screen page-shell">
         <Panel className="stage-screen__fallback">
           <Badge tone="warn">未找到辩论会</Badge>
-          <h1>{error ?? '这个 token 目前没有对应的公屏内容。'}</h1>
-          <p>你可以先去工作台创建一个辩论会，再把这个链接发给现场屏幕。</p>
+          <h1>{error ?? '这个链接目前没有对应的现场页。'}</h1>
+          <p>你可以先去活动台创建活动，再把这个链接发给大屏。</p>
           <div className="stage-screen__fallback-actions">
             <Link className="ui-button ui-button--outline" href="/dashboard">
-              去工作台
+              去活动台
             </Link>
             <Link className="ui-button ui-button--solid" href="/">
               返回首页
@@ -209,8 +209,8 @@ export function StageScreen({
           </div>
 
           <div className="stage-screen__header-meta">
-            <span>token / {state.publicToken}</span>
-            <span>{error ? error : '实时同步已就绪'}</span>
+            <span>场次编号 {state.publicToken}</span>
+            <span>{error ? error : '已同步最新内容'}</span>
           </div>
         </div>
 
@@ -234,9 +234,9 @@ export function StageScreen({
         ) : isFinalRound ? (
           <section className="stage-screen__final">
             <Panel className="stage-screen__final-card stage-screen__final-card--waiting">
-              <span>终局投票进行中</span>
-              <strong>公屏不显示实时进度</strong>
-              <p>让现场观众扫描二维码完成最后一票，然后回到工作台生成最终结果。</p>
+              <span>终极投票进行中</span>
+              <strong>现场页不显示实时票数</strong>
+              <p>让观众完成最后一票，然后回到活动台生成结果。</p>
             </Panel>
             <div className="stage-screen__final-qr">
               <QRCodeCard url={voteUrl} label="终局扫码投票" />
@@ -245,9 +245,9 @@ export function StageScreen({
         ) : (
           <section className="stage-screen__topic-mode">
             <div className="stage-screen__topic-meta">
-              <Badge tone="hot">当前辩题</Badge>
-              <h2>{topic?.title ?? '等待辩题切换'}</h2>
-              <p>{topic?.detail ?? '工作台里还没有激活任何辩题。'}</p>
+              <Badge tone="hot">当前题目</Badge>
+              <h2>{topic?.title ?? '等待题目切换'}</h2>
+              <p>{topic?.detail ?? '还没有激活任何题目。'}</p>
             </div>
 
             <div className="stage-screen__debate-layout">
@@ -275,10 +275,10 @@ export function StageScreen({
         )}
 
         <div className="stage-screen__footer">
-          <span>公开投票入口</span>
+          <span>现场投票入口</span>
           <Link href={voteUrl}>{voteUrl}</Link>
           <Link className="ui-button ui-button--outline ui-button--sm" href="/dashboard">
-            返回工作台
+            返回活动台
           </Link>
         </div>
       </section>

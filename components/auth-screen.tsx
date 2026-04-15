@@ -44,22 +44,22 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
     <main className="auth-screen page-shell">
       <section className="auth-screen__intro">
         <Badge tone="hot">{mode === 'login' ? '登录' : '注册'}</Badge>
-        <h1>{mode === 'login' ? '进入你的辩论工作台' : '先创建邮箱账号，马上搭建辩论会'}</h1>
+        <h1>{mode === 'login' ? '欢迎回来，继续设置你的活动' : '创建账号，开始第一场辩论会'}</h1>
         <p>
-          登录和注册都会写入数据库会话。辩题、投票和结算都走后端，不再依赖浏览器本地状态。
+          用邮箱登录后，你可以继续设置活动、补充题目、发布现场页，并收集观众投票。
         </p>
         <div className="auth-screen__notes">
           <div>
             <strong>1.</strong>
-            <span>邮箱账号与会话都会写入数据库。</span>
+            <span>一个邮箱对应一个账号，配置会一直保留。</span>
           </div>
           <div>
             <strong>2.</strong>
-            <span>登录后进入工作台创建辩论会和辩题。</span>
+            <span>先创建活动，再补充题目和双方观点。</span>
           </div>
           <div>
             <strong>3.</strong>
-            <span>观众扫码即可投票，不需要注册。</span>
+            <span>观众扫码就能投票，不需要登录。</span>
           </div>
         </div>
       </section>
@@ -67,7 +67,7 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
       <Panel className="auth-screen__panel">
         <div className="auth-screen__panel-header">
           <Badge tone="neutral">{mode === 'login' ? '邮箱登录' : '注册账号'}</Badge>
-          <span>数据库会话</span>
+          <span>账号入口</span>
         </div>
 
         <form
@@ -111,8 +111,8 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
         </form>
 
         <div className="auth-screen__footer">
-          <Link href="/">返回入口</Link>
-          <Link href="/dashboard">直接看工作台</Link>
+          <Link href="/">返回首页</Link>
+          <Link href="/dashboard">查看活动台</Link>
         </div>
       </Panel>
     </main>

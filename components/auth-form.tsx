@@ -45,7 +45,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
     <Panel className="auth-form">
       <div className="auth-form__header">
         <Badge tone={mode === 'login' ? 'hot' : 'success'}>{mode === 'login' ? '邮箱登录' : '创建账号'}</Badge>
-        <span>{mode === 'login' ? '返回已有工作区' : '开始搭建新的辩论会'}</span>
+        <span>{mode === 'login' ? '继续管理已有活动' : '开始第一场辩论会'}</span>
       </div>
 
       <form
@@ -70,7 +70,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="至少 8 位"
-          hint={mode === 'register' ? '注册后会立即登录。' : '登录后进入工作台。'}
+          hint={mode === 'register' ? '注册后会自动登录。' : '登录后进入活动台。'}
         />
 
         {error ? <p className="form-error">{error}</p> : null}

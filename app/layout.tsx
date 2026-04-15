@@ -25,8 +25,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'The Arena | 辩论会工作台',
-  description: '一个用于辩论会编排、二维码投票和终局结算的竞技场式工作台。',
+  title: '分晓 | 观点上场，投票见分晓',
+  description: '创建辩论会、配置题目、分享现场页、扫码投票并生成结果。',
 };
 
 export default function RootLayout({

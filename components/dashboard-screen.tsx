@@ -74,27 +74,27 @@ type TopicForm = {
 };
 
 const emptyTopic = (position = 0): TopicForm => ({
-  title: `辩题 ${position + 1}`,
-  detail: '补充这一轮的讨论边界、评判标准和现场表达重点。',
-  proView: '正方主张先从效率、可达性和现场体验来论证这一点。',
-  conView: '反方主张先从边界、成本和风险来说明这一点仍有争议。',
+  title: `第 ${position + 1} 题`,
+  detail: '补充这一轮要讨论什么、判断标准是什么，以及现场要聚焦哪些观点。',
+  proView: '正方可以先从效率、可达性和现场体验来展开。',
+  conView: '反方可以先从边界、成本和风险来展开。',
   position,
 });
 
 const starterTopic = (): TopicForm => ({
-  title: '起始辩题',
-  detail: '这是系统自动附带的起始辩题，创建后可以继续修改、补充或新增。',
-  proView: '正方主张先从效率、可达性和现场体验来论证这一点。',
-  conView: '反方主张先从边界、成本和风险来说明这一点仍有争议。',
+  title: '第一题',
+  detail: '这是系统先准备好的第一题，创建后可以继续修改、补充或新增。',
+  proView: '正方可以先从效率、可达性和现场体验来展开。',
+  conView: '反方可以先从边界、成本和风险来展开。',
   position: 0,
 });
 
 function getStatusLabel(status: DebateStatus) {
   switch (status) {
     case 'DRAFT':
-      return '草稿';
+      return '未开始';
     case 'LIVE':
-      return '辩题进行中';
+      return '进行中';
     case 'FINAL':
       return '终局投票';
     case 'ENDED':
@@ -178,9 +178,9 @@ function TopicEditor({
   if (!topic) {
     return (
       <Panel className="topic-editor topic-editor--empty">
-        <Badge tone="neutral">辩题编辑</Badge>
-        <h3>先选择一个辩题。</h3>
-        <p>从上方列表选一个辩题后，这里会显示它的详细内容和操作按钮。</p>
+        <Badge tone="neutral">题目编辑</Badge>
+        <h3>先选择一道题目。</h3>
+        <p>从上方列表选中之后，这里会显示题目详情和编辑按钮。</p>
       </Panel>
     );
   }
@@ -192,8 +192,8 @@ function TopicEditor({
     <Panel className={`topic-editor ${active ? 'topic-editor--active' : ''}`}>
       <div className="topic-editor__header">
         <div>
-          <Badge tone={active ? 'hot' : 'neutral'}>{active ? '当前辩题' : `辩题 ${topic.position + 1}`}</Badge>
-          <h3>{topic.title || `辩题 ${topic.position + 1}`}</h3>
+          <Badge tone={active ? 'hot' : 'neutral'}>{active ? '当前题目' : `第 ${topic.position + 1} 题`}</Badge>
+          <h3>{topic.title || `第 ${topic.position + 1} 题`}</h3>
         </div>
         <div className="topic-editor__mini">
           <span>{summaryLabel}</span>
@@ -218,18 +218,18 @@ function TopicEditor({
 
       <div className="topic-editor__grid">
         <TextField
-          label="辩题标题"
+          label="题目名称"
           value={draft.title}
           onChange={(event) => setDraft((previous) => ({ ...previous, title: event.target.value }))}
-          placeholder="输入这一轮的辩题"
+          placeholder="输入这一轮的题目名称"
           disabled={locked || busy}
         />
         <TextAreaField
-          label="背景与说明"
+          label="题目说明"
           value={draft.detail}
           onChange={(event) => setDraft((previous) => ({ ...previous, detail: event.target.value }))}
           rows={4}
-          placeholder="补充辩题边界、适用场景和评判标准"
+          placeholder="补充边界、场景和判断标准"
           disabled={locked || busy}
         />
         <TextAreaField
@@ -237,7 +237,7 @@ function TopicEditor({
           value={draft.proView}
           onChange={(event) => setDraft((previous) => ({ ...previous, proView: event.target.value }))}
           rows={4}
-          placeholder="正方如何开场，核心立场是什么"
+          placeholder="正方怎么说，核心立场是什么"
           disabled={locked || busy}
         />
         <TextAreaField
@@ -245,7 +245,7 @@ function TopicEditor({
           value={draft.conView}
           onChange={(event) => setDraft((previous) => ({ ...previous, conView: event.target.value }))}
           rows={4}
-          placeholder="反方如何反驳，核心攻防点是什么"
+          placeholder="反方怎么说，主要反驳点是什么"
           disabled={locked || busy}
         />
       </div>
@@ -256,7 +256,7 @@ function TopicEditor({
           onClick={() => void onSelect(topic.id)}
           disabled={busy}
         >
-          选中该辩题
+          查看详情
         </Button>
         <Button
           onClick={() => void onSave(topic.id, draft)}
@@ -288,20 +288,20 @@ function NewTopicEditor({
     <Panel className="topic-editor topic-editor--new">
       <div className="topic-editor__header">
         <div>
-          <Badge tone="success">新增辩题</Badge>
-          <h3>继续扩展这场辩论会。</h3>
+          <Badge tone="success">新增题目</Badge>
+          <h3>继续补充更多题目。</h3>
         </div>
       </div>
 
       <div className="topic-editor__grid">
         <TextField
-          label="标题"
+          label="题目名称"
           value={draft.title}
           onChange={(event) => setDraft((previous) => ({ ...previous, title: event.target.value }))}
           disabled={disabled}
         />
         <TextAreaField
-          label="介绍"
+          label="题目说明"
           value={draft.detail}
           onChange={(event) => setDraft((previous) => ({ ...previous, detail: event.target.value }))}
           rows={3}
@@ -325,7 +325,7 @@ function NewTopicEditor({
 
       <div className="topic-editor__actions">
         <Button onClick={() => void onCreate(draft)} disabled={disabled}>
-          添加辩题
+          添加题目
         </Button>
       </div>
     </Panel>
@@ -481,8 +481,8 @@ export function DashboardScreen({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: newTitle.trim() || '新辩论会',
-        theme: newTheme.trim() || '请补充辩论主线。',
+        title: newTitle.trim() || '新活动',
+        theme: newTheme.trim() || '请补充活动主题。',
         topics: [starterTopic()],
       }),
     });
@@ -500,7 +500,7 @@ export function DashboardScreen({
     setSelectedId(payload.debate.id);
     await refreshState(payload.debate.id);
     setBusyAction(null);
-    setShareNotice('辩论会已创建。');
+    setShareNotice('活动已创建。');
   }
 
   async function updateTopic(topicId: string, patch: Partial<TopicForm>) {
@@ -597,7 +597,7 @@ export function DashboardScreen({
     await refreshState();
     await refreshDebates();
     setBusyAction(null);
-    setShareNotice('已切换到终局投票。');
+    setShareNotice('已切换到终极投票。');
   }
 
   async function clearVotes() {
@@ -623,7 +623,7 @@ export function DashboardScreen({
 
     await refreshState();
     setBusyAction(null);
-    setShareNotice('当前轮投票已清空。');
+    setShareNotice('本轮投票已清空。');
   }
 
   async function finalizeDebate() {
@@ -684,47 +684,47 @@ export function DashboardScreen({
           <Badge tone={state ? (state.status === 'ENDED' ? 'success' : state.status === 'FINAL' ? 'warn' : 'hot') : 'warn'}>
             已登录 · {userEmail}
           </Badge>
-          <h1>编排辩论会，控制辩题流转，监看实时投票。</h1>
+          <h1>创建活动、配置题目、分享现场页，投票结果一目了然。</h1>
           <p>
-            这是一个偏操作台风格的工作区。你可以先新建辩论会，再逐题补全观点、切换当前辩题，最后把观众带入终局投票。
+            先创建一场活动，再补充题目和双方观点，打开现场页给大屏，最后把投票结果生成出来。
           </p>
         </div>
         <div className="dashboard-screen__hero-meta">
           <Badge tone={state ? (state.status === 'ENDED' ? 'success' : state.status === 'FINAL' ? 'warn' : 'neutral') : 'neutral'}>
-            {state ? getStatusLabel(state.status) : '等待创建'}
+            {state ? getStatusLabel(state.status) : '等待开始'}
           </Badge>
-          <span>{items.length} 场辩论会</span>
-          <span>{topicCount} 个辩题</span>
-          <span>{state ? state.publicToken : '尚未选择'}</span>
+          <span>{items.length} 场活动</span>
+          <span>{topicCount} 个题目</span>
+          <span>{state ? `分享码 ${state.publicToken}` : '暂无活动'}</span>
         </div>
       </section>
 
       <section className="dashboard-screen__create panel">
         <div className="section-heading">
           <div>
-            <span>新建辩论会</span>
-            <p>创建时会自动带一个起始辩题，之后仍然可以继续添加和修改。</p>
+            <span>新建活动</span>
+            <p>先填一个名称和主题，系统会自动带上第一道题，之后可以继续补充。</p>
           </div>
         </div>
 
         <div className="dashboard-screen__create-grid">
           <TextField
-            label="辩论会名称"
+            label="活动名称"
             value={newTitle}
             onChange={(event) => setNewTitle(event.target.value)}
-            placeholder="例如：年度思辨夜"
+            placeholder="例如：今晚聊什么"
           />
           <TextField
-            label="主题 / 主线"
+            label="讨论主题"
             value={newTheme}
             onChange={(event) => setNewTheme(event.target.value)}
-            placeholder="例如：AI 是否应该成为学习默认助手"
+            placeholder="例如：AI 是否应该进入课堂"
           />
         </div>
 
         <div className="dashboard-screen__create-actions">
           <Button onClick={() => void createDebate()} disabled={busyAction === 'create'}>
-            {busyAction === 'create' ? '创建中…' : '创建辩论会'}
+            {busyAction === 'create' ? '创建中…' : '创建活动'}
           </Button>
           <Button variant="ghost" onClick={() => void logout()}>
             退出登录
@@ -743,8 +743,8 @@ export function DashboardScreen({
           <Panel className="dashboard-screen__panel">
             <div className="section-heading">
               <div>
-                <span>辩论会列表</span>
-                <p>切换不同辩论会，右侧配置和舞台预览会同步更新。</p>
+                <span>活动列表</span>
+                <p>切换不同活动，右侧内容和现场页会一起更新。</p>
               </div>
             </div>
 
@@ -764,7 +764,7 @@ export function DashboardScreen({
                   </div>
                   <p>{item.theme}</p>
                   <span>
-                    {item.topicCount} 个辩题 · {item.publicToken}
+                    {item.topicCount} 个题目 · 分享码 {item.publicToken}
                   </span>
                 </button>
               ))}
@@ -774,47 +774,47 @@ export function DashboardScreen({
           <Panel className="dashboard-screen__panel">
             <div className="section-heading">
               <div>
-                <span>共享链接</span>
-                <p>这两个链接发给现场屏幕和扫码观众。</p>
+                <span>分享链接</span>
+                <p>把这两个链接发给大屏和观众，现场就能直接开始。</p>
               </div>
             </div>
 
             {selectedSummary ? (
               <div className="share-links">
-                <div className="share-links__item">
+              <div className="share-links__item">
                   <div className="share-links__copy">
-                    <strong>公屏地址</strong>
+                    <strong>现场页</strong>
                     <span>{stageUrl}</span>
                   </div>
                   <div className="share-links__actions">
                     <Link href={stageUrl} className="ui-button ui-button--outline ui-button--sm">
-                      打开
+                      打开链接
                     </Link>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => void copyLink('stage', stageUrl, '公屏地址')}
+                      onClick={() => void copyLink('stage', stageUrl, '现场页')}
                       disabled={copiedLink === 'stage'}
                     >
                       {copiedLink === 'stage' ? '已复制' : '复制'}
                     </Button>
                   </div>
                 </div>
-                <div className="share-links__item">
+              <div className="share-links__item">
                   <div className="share-links__copy">
-                    <strong>投票地址</strong>
+                    <strong>投票页</strong>
                     <span>{voteUrl}</span>
                   </div>
                   <div className="share-links__actions">
                     <Link href={voteUrl} className="ui-button ui-button--outline ui-button--sm">
-                      打开
+                      打开链接
                     </Link>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => void copyLink('vote', voteUrl, '投票地址')}
+                      onClick={() => void copyLink('vote', voteUrl, '投票页')}
                       disabled={copiedLink === 'vote'}
                     >
                       {copiedLink === 'vote' ? '已复制' : '复制'}
@@ -823,7 +823,7 @@ export function DashboardScreen({
                 </div>
               </div>
             ) : (
-              <p className="dashboard-screen__empty">还没有辩论会，先创建一个吧。</p>
+              <p className="dashboard-screen__empty">还没有活动，先创建一场吧。</p>
             )}
           </Panel>
         </aside>
@@ -833,8 +833,8 @@ export function DashboardScreen({
             <Panel className="dashboard-screen__panel dashboard-screen__panel--editor">
               <div className="section-heading section-heading--row">
                 <div>
-                  <span>辩论会编辑器</span>
-                  <p>标题、主线和辩题内容都可以直接在这里改。</p>
+                  <span>活动设置</span>
+                  <p>活动名称、主题和题目内容都可以直接在这里改。</p>
                 </div>
                 <div className="section-heading__actions">
                   <Button
@@ -842,7 +842,7 @@ export function DashboardScreen({
                     onClick={() => void enterFinalVote()}
                     disabled={state.status === 'FINAL' || state.status === 'ENDED'}
                   >
-                    进入终局投票
+                    切换到终极投票
                   </Button>
                   <Button
                     variant="ghost"
@@ -855,7 +855,7 @@ export function DashboardScreen({
 
               <div className="dashboard-screen__meta-grid">
                 <TextField
-                  label="辩论会名称"
+                  label="活动名称"
                   value={state.title}
                   onChange={(event) =>
                     void updateDebateTitle(state.id, event.target.value)
@@ -863,7 +863,7 @@ export function DashboardScreen({
                   disabled={!canEdit}
                 />
                 <TextField
-                  label="主题 / 主线"
+                  label="讨论主题"
                   value={state.theme}
                   onChange={(event) =>
                     void updateDebateTheme(state.id, event.target.value)
@@ -890,7 +890,7 @@ export function DashboardScreen({
                   onClick={() => void createTopic(emptyTopic(state.topics.length))}
                   disabled={!canEdit || busyAction !== null}
                 >
-                  添加辩题
+                  新增题目
                 </Button>
               </div>
 
@@ -927,9 +927,9 @@ export function DashboardScreen({
             </Panel>
           ) : (
             <Panel className="dashboard-screen__panel dashboard-screen__empty-state">
-              <Badge tone="warn">空工作区</Badge>
-              <h2>创建第一场辩论会，开始试试后端。</h2>
-              <p>这套页面会真正写入数据库，注册、登录、建题和投票都会走 API。</p>
+              <Badge tone="warn">还没有活动</Badge>
+              <h2>创建第一场活动，开始完整体验。</h2>
+              <p>从这里开始，你可以创建活动、补充题目、分享现场页，再把观众投票结果收回来。</p>
             </Panel>
           )}
         </section>
@@ -939,8 +939,8 @@ export function DashboardScreen({
             <Panel className="dashboard-screen__panel dashboard-screen__panel--stage">
               <div className="section-heading">
                 <div>
-                  <span>公屏预览</span>
-                  <p>你可以把这里当作现场大屏的缩略镜像。</p>
+                  <span>现场预览</span>
+                  <p>你可以把这里当作现场大屏的缩略图，方便检查展示效果。</p>
                 </div>
               </div>
 
@@ -953,15 +953,15 @@ export function DashboardScreen({
 
               <div className="monitor-stats">
                 <div>
-                  <span>当前模式</span>
+                  <span>当前状态</span>
                   <strong>{getStatusLabel(state.status)}</strong>
                 </div>
                 <div>
-                  <span>当前辩题</span>
-                  <strong>{activeTopic?.title ?? '终局投票'}</strong>
+                  <span>当前题目</span>
+                  <strong>{activeTopic?.title ?? '终极投票'}</strong>
                 </div>
                 <div>
-                  <span>{isFinalVote ? '终局状态' : '实时票数'}</span>
+                  <span>{isFinalVote ? '终极状态' : '现场票数'}</span>
                   <strong>
                     {isFinalVote ? '已隐藏' : `${liveSummary.pro} / ${liveSummary.con}`}
                   </strong>
@@ -970,8 +970,8 @@ export function DashboardScreen({
 
               {isFinalVote ? (
                 <div className="monitor-final-hint">
-                  <strong>终局投票中</strong>
-                  <p>后台也不显示实时进度，等观众投完后直接点生成结果。</p>
+                  <strong>终极投票中</strong>
+                  <p>这一轮不显示实时票数，等观众投完后直接生成结果。</p>
                 </div>
               ) : null}
 
@@ -980,16 +980,16 @@ export function DashboardScreen({
                   onClick={() => void finalizeDebate()}
                   disabled={state.status !== 'FINAL' || busyAction !== null}
                 >
-                  生成最终结果
+                  生成结果
                 </Button>
                 <Button variant="outline" onClick={() => setSelectedId(state.id)}>
-                  固定当前辩论会
+                  锁定当前活动
                 </Button>
               </div>
 
               {state.status === 'ENDED' ? (
                 <div className="winner-banner">
-                  <span>最终结果</span>
+                  <span>结果公布</span>
                   <strong>
                     {state.finalWinner === 'PRO'
                       ? '正方胜出'
@@ -1001,17 +1001,17 @@ export function DashboardScreen({
                 </div>
               ) : (
                 <div className="winner-banner winner-banner--muted">
-                  <span>终局结果</span>
-                  <strong>{state.status === 'FINAL' ? '等待生成' : '尚未进入终局'}</strong>
-                  <p>{state.status === 'FINAL' ? '进入终局投票后，先让观众扫码，再点生成按钮。' : '完成所有辩题后，才能切换到终局投票。'}</p>
+                  <span>最后结果</span>
+                  <strong>{state.status === 'FINAL' ? '等待生成' : '尚未进入终极投票'}</strong>
+                  <p>{state.status === 'FINAL' ? '先让观众扫码完成最后一票，再点击生成结果。' : '完成所有题目后，才能切换到终极投票。'}</p>
                 </div>
               )}
             </Panel>
           ) : (
             <Panel className="dashboard-screen__panel dashboard-screen__panel--stage">
-              <Badge tone="neutral">公屏预览</Badge>
-              <h3>还没有选择辩论会。</h3>
-              <p>先创建一个辩论会，右侧就会出现舞台和二维码。</p>
+              <Badge tone="neutral">现场预览</Badge>
+              <h3>还没有选择活动。</h3>
+              <p>先创建一场活动，右侧就会出现现场页和二维码。</p>
             </Panel>
           )}
         </aside>
@@ -1019,8 +1019,8 @@ export function DashboardScreen({
 
       <Dialog
         open={clearDialogOpen}
-        title="清空全部投票？"
-        description="这会清除当前辩论会的所有实时票数和终局票数，适合在下一轮前重置。"
+        title="清空投票？"
+        description="这会清掉当前活动的所有票数，适合重新开始一轮。"
         confirmLabel="确认清空"
         tone="danger"
         onCancel={() => setClearDialogOpen(false)}

@@ -51,9 +51,9 @@ const CHOICE_PREFIX = 'battle-vote-choice';
 function getStatusLabel(status: DebateStatus) {
   switch (status) {
     case 'DRAFT':
-      return '草稿';
+      return '未开始';
     case 'LIVE':
-      return '辩题进行中';
+      return '进行中';
     case 'FINAL':
       return '终局投票';
     case 'ENDED':
@@ -157,7 +157,7 @@ export function VoteScreen({
         <Panel className="vote-screen__fallback">
           <Badge tone="neutral">加载中</Badge>
           <h1>正在读取投票页内容。</h1>
-          <p>如果这是第一次打开，先等后台写入辩论会数据。</p>
+          <p>如果这是第一次打开，先等内容加载完成。</p>
         </Panel>
       </main>
     );
@@ -169,10 +169,10 @@ export function VoteScreen({
         <Panel className="vote-screen__fallback">
           <Badge tone="warn">未找到辩论会</Badge>
           <h1>{error ?? '这个投票地址还没有对应的辩论会。'}</h1>
-          <p>你可以先去工作台创建一个辩论会，再把这个二维码发给观众。</p>
+          <p>你可以先去活动台创建一场，再把这个二维码发给观众。游客扫码就能投票，不需要登录。</p>
           <div className="vote-screen__fallback-actions">
             <Link className="ui-button ui-button--solid" href="/dashboard">
-              去工作台
+              去活动台
             </Link>
             <Link className="ui-button ui-button--outline" href="/">
               返回首页
@@ -184,7 +184,7 @@ export function VoteScreen({
   }
 
   const isFinalRound = state.currentRound === 'FINAL' || state.hideLiveProgress;
-  const heading = isFinalRound ? '终局投票' : topic?.title ?? '当前辩题';
+  const heading = isFinalRound ? '终局投票' : topic?.title ?? '当前题目';
   const detail =
     isFinalRound
       ? '只保留终局选项，不显示实时进度。投完之后你仍然可以在同一台设备上更换选择。'
@@ -227,7 +227,7 @@ export function VoteScreen({
           <h1>{state.title}</h1>
           <p>{state.theme}</p>
           <span className="vote-screen__header-meta">
-            {visitorKey ? '本设备会记住你的访问键，方便你重新改票。' : '正在生成访问键。'}
+            {visitorKey ? '本设备会记住你的选择，方便你重新改票。' : '正在准备投票状态。'}
           </span>
         </div>
 
@@ -284,9 +284,9 @@ export function VoteScreen({
           </Panel>
         ) : (
           <Panel className="vote-screen__ended vote-screen__ended--muted">
-            <Badge tone={isFinalRound ? 'warn' : 'neutral'}>{isFinalRound ? '终局模式' : '辩题模式'}</Badge>
+            <Badge tone={isFinalRound ? 'warn' : 'neutral'}>{isFinalRound ? '终局模式' : '题目模式'}</Badge>
             <strong>这张票可以随时改</strong>
-            <p>同一台设备会保存访问键，你再次扫码后可以直接覆盖原来的选择。</p>
+            <p>同一台设备会保存你的选择，你再次扫码后可以直接覆盖原来的选择。</p>
           </Panel>
         )}
       </section>
