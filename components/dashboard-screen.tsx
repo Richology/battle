@@ -372,6 +372,8 @@ export function DashboardScreen({
   const canEdit = Boolean(state && state.status !== 'FINAL' && state.status !== 'ENDED');
   const stageUrl = selectedSummary ? selectedSummary.stagePath : '#';
   const voteUrl = selectedSummary ? selectedSummary.votePath : '#';
+  const activeStep =
+    state?.status === 'ENDED' ? 4 : state?.status === 'FINAL' ? 3 : state?.status === 'LIVE' ? 2 : 1;
 
   useEffect(() => {
     if (!copiedLink) {
@@ -697,6 +699,24 @@ export function DashboardScreen({
           <span>{topicCount} 个题目</span>
           <span>{state ? `分享码 ${state.publicToken}` : '暂无活动'}</span>
         </div>
+      </section>
+
+      <section className="dashboard-screen__flow">
+        {[
+          { step: 1, title: '创建活动', desc: '先定名称和主题' },
+          { step: 2, title: '配置题目', desc: '补充正反观点' },
+          { step: 3, title: '现场投票', desc: '开放扫码投票' },
+          { step: 4, title: '生成结果', desc: '进入终局投票后出结果' },
+        ].map((item) => (
+          <div
+            key={item.step}
+            className={`flow-step ${item.step === activeStep ? 'flow-step--active' : ''} ${item.step < activeStep ? 'flow-step--done' : ''}`}
+          >
+            <span>0{item.step}</span>
+            <strong>{item.title}</strong>
+            <p>{item.desc}</p>
+          </div>
+        ))}
       </section>
 
       <section className="dashboard-screen__create panel">

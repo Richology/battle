@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { getOwnerDebates } from '@/lib/debate';
 
 import { Badge } from './ui';
+import { LogoutButton } from './logout-button';
 
 export async function SiteHeader() {
   const session = await getCurrentUser();
@@ -43,9 +44,12 @@ export async function SiteHeader() {
                 : '还没有活动'
               : '请先登录或注册'}
           </span>
-          <Link className="ui-button ui-button--outline ui-button--sm" href={session ? '/dashboard' : '/login'}>
-            {session ? '进入活动台' : '前往登录'}
-          </Link>
+          <div className="site-header__actions">
+            <Link className="ui-button ui-button--outline ui-button--sm" href={session ? '/dashboard' : '/login'}>
+              {session ? '进入活动台' : '前往登录'}
+            </Link>
+            {session ? <LogoutButton /> : null}
+          </div>
         </div>
       </div>
     </header>

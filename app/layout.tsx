@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { SiteHeader } from '@/components/site-header';
 
 import './globals.css';
+import './arena-theme.css';
 
 const inter = Inter({
   subsets: ['latin'],
