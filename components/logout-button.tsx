@@ -15,7 +15,7 @@ export function LogoutButton({ className }: { className?: string }) {
 
   return (
     <Button className={className} variant="outline" size="sm" onClick={() => void handleLogout()}>
-      退出登录
+      Log out
     </Button>
   );
 }

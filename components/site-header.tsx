@@ -16,37 +16,37 @@ export async function SiteHeader() {
       <div className="site-header__inner">
         <Link className="site-brand" href="/">
           <span className="site-brand__mark" aria-hidden="true">
-            ◇
+            B
           </span>
           <span className="site-brand__copy">
-            <strong>分晓</strong>
-            <span>观点上场，投票见分晓</span>
+            <strong>Battle</strong>
+            <span>Structured Thinking × AI</span>
           </span>
         </Link>
 
         <nav className="site-nav" aria-label="站点导航">
-          <Link href="/">首页</Link>
-          <Link href="/dashboard">活动台</Link>
-          {!session ? <Link href="/login">登录</Link> : null}
-          {!session ? <Link href="/register">注册</Link> : null}
-          {primaryDebate ? <Link href={`/stage/${primaryDebate.publicToken}`}>现场页</Link> : null}
-          {primaryDebate ? <Link href={`/vote/${primaryDebate.publicToken}`}>投票页</Link> : null}
+          <Link href="/">Home</Link>
+          <Link href="/dashboard">Workspace</Link>
+          {!session ? <Link href="/login">Log in</Link> : null}
+          {!session ? <Link href="/register">Sign up</Link> : null}
+          {primaryDebate ? <Link href={`/stage/${primaryDebate.publicToken}`}>Stage</Link> : null}
+          {primaryDebate ? <Link href={`/vote/${primaryDebate.publicToken}`}>Vote</Link> : null}
         </nav>
 
         <div className="site-header__meta">
           <Badge tone={session ? 'success' : 'warn'}>
-            {session ? session.email : '游客'}
+            {session ? session.email : 'Guest'}
           </Badge>
           <span className="site-header__status">
             {session
               ? primaryDebate
                 ? primaryDebate.title
-                : '还没有活动'
-              : '请先登录或注册'}
+                : 'No workspace yet'
+              : 'Log in or sign up'}
           </span>
           <div className="site-header__actions">
             <Link className="ui-button ui-button--outline ui-button--sm" href={session ? '/dashboard' : '/login'}>
-              {session ? '进入活动台' : '前往登录'}
+              {session ? 'Enter workspace' : 'Get started'}
             </Link>
             {session ? <LogoutButton /> : null}
           </div>

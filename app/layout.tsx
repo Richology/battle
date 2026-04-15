@@ -6,6 +6,7 @@ import { SiteHeader } from '@/components/site-header';
 
 import './globals.css';
 import './arena-theme.css';
+import './battle-home.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,8 +27,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: '分晓 | 观点上场，投票见分晓',
-  description: '创建辩论会、配置题目、分享现场页、扫码投票并生成结果。',
+  title: 'Battle | Structured Thinking × AI',
+  description: 'Train your AI thinking through prompt battles.',
 };
 
 export default function RootLayout({
