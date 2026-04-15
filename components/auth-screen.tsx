@@ -44,22 +44,22 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
     <main className="auth-screen page-shell">
       <section className="auth-screen__intro">
         <Badge tone="hot">{mode === 'login' ? '登录' : '注册'}</Badge>
-        <h1>{mode === 'login' ? '进入你的辩论控制台' : '先创建邮箱账号，马上搭建辩论会'}</h1>
+        <h1>{mode === 'login' ? '进入你的辩论工作台' : '先创建邮箱账号，马上搭建辩论会'}</h1>
         <p>
-          这次会真正把账号写进数据库。注册、登录、建题、投票和结算都走后端，不再依赖浏览器本地状态。
+          登录和注册都会写入数据库会话。辩题、投票和结算都走后端，不再依赖浏览器本地状态。
         </p>
         <div className="auth-screen__notes">
           <div>
             <strong>1.</strong>
-            <span>邮箱注册与登录都会写入 SQLite 会话。</span>
+            <span>邮箱账号与会话都会写入数据库。</span>
           </div>
           <div>
             <strong>2.</strong>
-            <span>登录后进入控制台创建辩论会和辩题。</span>
+            <span>登录后进入工作台创建辩论会和辩题。</span>
           </div>
           <div>
             <strong>3.</strong>
-            <span>观众扫码进入投票页，现场大屏实时刷新。</span>
+            <span>观众扫码即可投票，不需要注册。</span>
           </div>
         </div>
       </section>
@@ -112,7 +112,7 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
 
         <div className="auth-screen__footer">
           <Link href="/">返回入口</Link>
-          <Link href="/dashboard">直接看控制台</Link>
+          <Link href="/dashboard">直接看工作台</Link>
         </div>
       </Panel>
     </main>

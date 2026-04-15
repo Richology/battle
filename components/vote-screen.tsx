@@ -169,10 +169,10 @@ export function VoteScreen({
         <Panel className="vote-screen__fallback">
           <Badge tone="warn">未找到辩论会</Badge>
           <h1>{error ?? '这个投票地址还没有对应的辩论会。'}</h1>
-          <p>你可以先去控制台创建一个辩论会，再把这个二维码发给观众。</p>
+          <p>你可以先去工作台创建一个辩论会，再把这个二维码发给观众。</p>
           <div className="vote-screen__fallback-actions">
             <Link className="ui-button ui-button--solid" href="/dashboard">
-              去控制台
+              去工作台
             </Link>
             <Link className="ui-button ui-button--outline" href="/">
               返回首页

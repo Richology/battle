@@ -929,7 +929,7 @@ export function DashboardScreen({
             <Panel className="dashboard-screen__panel dashboard-screen__empty-state">
               <Badge tone="warn">空工作区</Badge>
               <h2>创建第一场辩论会，开始试试后端。</h2>
-              <p>这套页面会真正写入 SQLite 数据库，注册、登录、建题和投票都会走 API。</p>
+              <p>这套页面会真正写入数据库，注册、登录、建题和投票都会走 API。</p>
             </Panel>
           )}
         </section>

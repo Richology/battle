@@ -23,12 +23,12 @@ export function QRCodeCard({
         : url;
 
     QRCode.toDataURL(absoluteUrl, {
-      width: 260,
-      margin: 1,
+      width: 280,
+      margin: 2,
       errorCorrectionLevel: 'M',
       color: {
-        dark: '#16110d',
-        light: '#fff7ea',
+        dark: '#0b1326',
+        light: '#eef2ff',
       },
     })
       .then((dataUrl) => {

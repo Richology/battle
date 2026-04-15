@@ -70,7 +70,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="至少 8 位"
-          hint={mode === 'register' ? '注册后会立即登录。' : '登录后进入控制台。'}
+          hint={mode === 'register' ? '注册后会立即登录。' : '登录后进入工作台。'}
         />
 
         {error ? <p className="form-error">{error}</p> : null}

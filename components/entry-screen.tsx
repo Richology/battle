@@ -9,15 +9,15 @@ export function EntryScreen() {
   return (
     <main className="entry-screen page-shell">
       <section className="entry-screen__hero">
-        <Badge tone="hot">辩论会控制台</Badge>
-        <h1>把邮箱登录、辩题编排、二维码投票和终局结算放到一块。</h1>
+        <Badge tone="hot">THE ARENA</Badge>
+        <h1>把邮箱登录、辩题编排、扫码投票和终局结算放进同一个战场。</h1>
         <p>
-          这是一个全栈练手项目。注册后会真正写入数据库，之后你可以创建辩论会、添加辩题、切换当前题、清票和生成最终结果。
+          注册后会真正写入数据库。你可以创建辩论会、添加辩题、切换当前题、清空投票并生成最终结果。
         </p>
 
         <div className="entry-screen__actions">
           <Link className="ui-button ui-button--solid" href="/dashboard">
-            进入控制台
+            进入工作台
           </Link>
           <Link className="ui-button ui-button--outline" href="/login">
             登录
@@ -37,16 +37,16 @@ export function EntryScreen() {
 
       <Panel className="entry-screen__panel">
         <div className="entry-screen__panel-header">
-          <Badge tone="neutral">示意舞台</Badge>
+          <Badge tone="neutral">现场预演</Badge>
           <span>首页预览</span>
         </div>
 
         <div className="monitor-copy">
-          <strong>现场大屏风格</strong>
-          <p>暖色舞台背景、双栏观点卡和中间二维码，用来帮助你提前感受控制台的最终效果。</p>
+          <strong>蓝红对抗视图</strong>
+          <p>深色战场、双栏观点卡和中心二维码，用来提前看最终大屏的节奏。</p>
         </div>
 
-        <QRCodeCard url="/login" label="示意二维码" className="monitor-qr" />
+        <QRCodeCard url="/login" label="投票入口预览" className="monitor-qr" />
 
         <div className="monitor-stats">
           <div>
@@ -59,14 +59,14 @@ export function EntryScreen() {
           </div>
           <div>
             <span>观众投票</span>
-            <strong>同设备可改票</strong>
+            <strong>扫码即投</strong>
           </div>
         </div>
 
         <div className="entry-screen__links">
           <Link href="/login">专门的登录页</Link>
           <Link href="/register">专门的注册页</Link>
-          <Link href="/dashboard">直接看控制台</Link>
+          <Link href="/dashboard">直接看工作台</Link>
         </div>
       </Panel>
     </main>

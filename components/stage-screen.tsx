@@ -177,10 +177,10 @@ export function StageScreen({
         <Panel className="stage-screen__fallback">
           <Badge tone="warn">未找到辩论会</Badge>
           <h1>{error ?? '这个 token 目前没有对应的公屏内容。'}</h1>
-          <p>你可以先去控制台创建一个辩论会，再把这个链接发给现场屏幕。</p>
+          <p>你可以先去工作台创建一个辩论会，再把这个链接发给现场屏幕。</p>
           <div className="stage-screen__fallback-actions">
             <Link className="ui-button ui-button--outline" href="/dashboard">
-              去控制台
+              去工作台
             </Link>
             <Link className="ui-button ui-button--solid" href="/">
               返回首页
@@ -236,7 +236,7 @@ export function StageScreen({
             <Panel className="stage-screen__final-card stage-screen__final-card--waiting">
               <span>终局投票进行中</span>
               <strong>公屏不显示实时进度</strong>
-              <p>让现场观众扫描二维码完成最后一票，然后回到控制台生成最终结果。</p>
+              <p>让现场观众扫描二维码完成最后一票，然后回到工作台生成最终结果。</p>
             </Panel>
             <div className="stage-screen__final-qr">
               <QRCodeCard url={voteUrl} label="终局扫码投票" />
@@ -247,7 +247,7 @@ export function StageScreen({
             <div className="stage-screen__topic-meta">
               <Badge tone="hot">当前辩题</Badge>
               <h2>{topic?.title ?? '等待辩题切换'}</h2>
-              <p>{topic?.detail ?? '控制台里还没有激活任何辩题。'}</p>
+              <p>{topic?.detail ?? '工作台里还没有激活任何辩题。'}</p>
             </div>
 
             <div className="stage-screen__debate-layout">
@@ -275,10 +275,10 @@ export function StageScreen({
         )}
 
         <div className="stage-screen__footer">
-          <span>公网投票入口</span>
+          <span>公开投票入口</span>
           <Link href={voteUrl}>{voteUrl}</Link>
           <Link className="ui-button ui-button--outline ui-button--sm" href="/dashboard">
-            返回控制台
+            返回工作台
           </Link>
         </div>
       </section>

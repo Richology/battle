@@ -18,14 +18,14 @@ export async function SiteHeader() {
             ◇
           </span>
           <span className="site-brand__copy">
-            <strong>Battle Debate</strong>
-            <span>辩论会控制台</span>
+            <strong>THE ARENA</strong>
+            <span>辩论会工作台</span>
           </span>
         </Link>
 
         <nav className="site-nav" aria-label="站点导航">
           <Link href="/">首页</Link>
-          <Link href="/dashboard">控制台</Link>
+          <Link href="/dashboard">工作台</Link>
           {!session ? <Link href="/login">登录</Link> : null}
           {!session ? <Link href="/register">注册</Link> : null}
           {primaryDebate ? <Link href={`/stage/${primaryDebate.publicToken}`}>舞台</Link> : null}
@@ -44,7 +44,7 @@ export async function SiteHeader() {
               : '请先登录邮箱账号'}
           </span>
           <Link className="ui-button ui-button--outline ui-button--sm" href={session ? '/dashboard' : '/login'}>
-            {session ? '进入控制台' : '开始登录'}
+            {session ? '进入工作台' : '开始登录'}
           </Link>
         </div>
       </div>

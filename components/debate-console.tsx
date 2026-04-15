@@ -675,7 +675,7 @@ export function DebateConsole({
     <main className="dashboard-console">
       <header className="dashboard-console__topbar">
         <div>
-          <Badge tone="hot">辩论会控制台</Badge>
+          <Badge tone="hot">THE ARENA</Badge>
           <h1>邮箱登录、辩题编排、扫码投票、终局结算。</h1>
           <p>{userEmail}</p>
         </div>
@@ -760,7 +760,7 @@ export function DebateConsole({
             <Panel className="dashboard-console__empty-state">
               <Badge tone="warn">空工作区</Badge>
               <h2>创建第一场辩论会，开始试试后端。</h2>
-              <p>这套页面会真正写入 SQLite 数据库，注册、登录、建题和投票都会走 API。</p>
+              <p>这套页面会真正写入数据库，注册、登录、建题和投票都会走 API。</p>
             </Panel>
           )}
         </section>
